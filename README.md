@@ -1,7 +1,11 @@
 
-#Epipolar Rectification Toolkit
+# Epipolar Rectification Toolkit
 
 ### Andrea Fusiello, 2020
+
+
+![banner](http://www.diegm.uniud.it/%7Efusiello/demo/rect/banner.jpg)
+
 
 This toolkit is a collection of Matlab functions implementing
 epipolar rectification both in the calibrated and uncalibrated
