@@ -4,7 +4,7 @@
 ### Andrea Fusiello, 2020
 
 
-![banner](http://www.diegm.uniud.it/%7Efusiello/demo/rect/banner.jpg)
+![banner](https://fusiello.github.io/demo/rect/banner.jpg)
 
 
 This toolkit is a collection of Matlab functions implementing
