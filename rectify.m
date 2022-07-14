@@ -44,7 +44,7 @@ else % uncalibrated
     addpath('/Users/andrea/LibMatlab/vlfeat-0.9.21/toolbox/');
     vl_setup
     
-    matches_th = 25; % minimum number of matches after RANSAC
+    matches_th = 24; % minimum number of matches after RANSAC
     
     %%
     disp('Uncalibrated: computing F from SIFT matches')
@@ -56,17 +56,23 @@ else % uncalibrated
     % Each column of D is the descriptor of the corresponding frame in F
     
     % match
-    match = vl_ubcmatch(d1, d2) ;
+    [match,score] = vl_ubcmatch(d1, d2) ;
+    
+    [~,ind] = sort(score); match = match(:,ind);
+  
+    % force injectivity
+    [~, ia, ~] = unique(match(2,:),'stable');
+    match = match(:,ia);
     
     ml = f1(1:2,match(1,:)); mr = f2(1:2,match(2,:));
     
-    [F, in]  = fund_rob(mr,ml,'MSAC',2);
+    [F, in]  = fund_rob(mr,ml,'MSAC',1.5);
     fprintf('MSAC: F-matrix Sampson RMSE: %0.5g pixel\n',...
         rmse(sampson_fund(F,ml(:,in),mr(:,in))) );
     
     fprintf('Found %d inlier matches \n', sum(in));
     if sum(in) <  5.9 + 0.22*size(match,2) ||  sum(in) < matches_th
-        warning('Not enough inliers');
+        error('Not enough inliers: results may be inaccurate');
     end
     
     ml = ml(1:2,in);   mr = mr(1:2,in);
